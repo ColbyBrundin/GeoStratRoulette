@@ -25,7 +25,6 @@ export function Header() {
           <h1 className={styles.title}>
             <span className={styles.titleAccent}>CS2</span> STRAT ROULETTE
           </h1>
-          <p className={styles.subtitle}>TACTICAL CHAOS GENERATOR</p>
         </div>
       </div>
       

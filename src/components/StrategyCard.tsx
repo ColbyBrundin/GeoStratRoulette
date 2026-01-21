@@ -38,7 +38,7 @@ export function StrategyCard({ strategy, isResult = false }: StrategyCardProps) 
       <div className={styles.footer}>
         <div className={styles.badges}>
           <span className={`team-badge ${strategy.team.toLowerCase()}`}>
-            {strategy.team === 'Both' ? 'T / CT' : strategy.team}
+            {strategy.team}
           </span>
           <span className={`diff-badge ${strategy.difficulty.toLowerCase()}`}>
             {strategy.difficulty}

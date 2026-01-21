@@ -9,16 +9,15 @@ interface AddStrategyModalProps {
   onClose: () => void;
 }
 
-const TEAMS: Team[] = ['T', 'CT', 'Both'];
-const DIFFICULTIES: Difficulty[] = ['Easy', 'Medium', 'Hard', 'Troll'];
+const TEAMS: Team[] = ['T', 'CT'];
+const DIFFICULTIES: Difficulty[] = ['Easy', 'Medium', 'Hard'];
 
 export function AddStrategyModal({ onClose }: AddStrategyModalProps) {
   const { addStrategy } = useStrategyStore();
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  const [team, setTeam] = useState<Team>('Both');
+  const [team, setTeam] = useState<Team>('T');
   const [difficulty, setDifficulty] = useState<Difficulty>('Medium');
-  const [map, setMap] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,7 +29,6 @@ export function AddStrategyModal({ onClose }: AddStrategyModalProps) {
       description: description.trim(),
       team,
       difficulty,
-      map: map.trim() || undefined,
     });
 
     onClose();
@@ -80,7 +78,7 @@ export function AddStrategyModal({ onClose }: AddStrategyModalProps) {
                     className={`${styles.selectBtn} ${team === t ? styles.selected : ''}`}
                     onClick={() => setTeam(t)}
                   >
-                    {t === 'Both' ? 'T / CT' : t}
+                    {t}
                   </button>
                 ))}
               </div>
@@ -101,17 +99,6 @@ export function AddStrategyModal({ onClose }: AddStrategyModalProps) {
                 </button>
               ))}
             </div>
-          </div>
-
-          <div className={styles.field}>
-            <label className={styles.label}>Map (Optional)</label>
-            <input
-              type="text"
-              value={map}
-              onChange={(e) => setMap(e.target.value)}
-              placeholder="e.g., Dust2, Mirage, Inferno"
-              className={styles.input}
-            />
           </div>
 
           <div className={styles.actions}>

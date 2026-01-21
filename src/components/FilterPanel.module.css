@@ -3,17 +3,9 @@
   border: 1px solid var(--border-color);
   padding: 20px;
   position: relative;
+  width: 100%;
 }
 
-.panel::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 3px;
-  height: 100%;
-  background: var(--accent-cyan);
-}
 
 .header {
   margin-bottom: 20px;
@@ -22,7 +14,7 @@
 }
 
 .label {
-  font-size: 12px;
+  font-size: 16px;
   color: var(--accent-cyan);
   letter-spacing: 3px;
 }
@@ -36,7 +28,7 @@
 }
 
 .sectionTitle {
-  font-size: 11px;
+  font-size: 14px;
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -44,22 +36,126 @@
   font-weight: 500;
 }
 
-.options {
+/* Team toggle buttons */
+.teamButtons {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  gap: 0;
+  width: 100%;
 }
 
-.option {
+.teamBtn {
+  flex: 1;
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 14px;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 20px;
   background: var(--bg-tertiary);
   border: 1px solid var(--border-color);
   color: var(--text-secondary);
   font-family: 'Chakra Petch', sans-serif;
-  font-size: 13px;
+  font-size: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: 3px;
+  position: relative;
+}
+
+.tBtn {
+  border-right: none;
+}
+
+.teamBtn:hover {
+  color: var(--text-primary);
+}
+
+.tBtn .teamIndicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--team-t);
+  opacity: 0.4;
+  transition: all 0.2s ease;
+}
+
+.ctBtn .teamIndicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--team-ct);
+  opacity: 0.4;
+  transition: all 0.2s ease;
+}
+
+.tBtn.active {
+  background: rgba(222, 162, 75, 0.15);
+  border-color: var(--team-t);
+  color: var(--team-t);
+}
+
+/* Orange accent line on right side of T button when active */
+.tBtn.active::after {
+  content: '';
+  position: absolute;
+  top: -1px;
+  right: -2px;
+  width: 3px;
+  height: calc(100% + 2px);
+  background: var(--team-t);
+  box-shadow: 0 0 8px var(--team-t);
+}
+
+.tBtn.active .teamIndicator {
+  opacity: 1;
+  box-shadow: 0 0 8px var(--team-t);
+}
+
+.ctBtn.active {
+  background: rgba(93, 121, 174, 0.15);
+  border-color: var(--team-ct);
+  border-left: none;
+  color: var(--team-ct);
+}
+
+/* Blue accent line on left side of CT button when active */
+.ctBtn.active::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 1px;
+  height: calc(100% + 2px);
+  background: var(--team-ct);
+  box-shadow: 0 0 8px var(--team-ct);
+}
+
+.ctBtn.active .teamIndicator {
+  opacity: 1;
+  box-shadow: 0 0 8px var(--team-ct);
+}
+
+/* Difficulty options */
+.options {
+  display: flex;
+  width: 100%;
+  gap: 24px;
+}
+
+.option {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 3px;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -73,26 +169,6 @@
   border-color: var(--accent-cyan);
   color: var(--text-primary);
   background: rgba(0, 212, 255, 0.1);
-}
-
-.teamIndicator {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-}
-
-.teamIndicator.t {
-  background: var(--team-t);
-  box-shadow: 0 0 6px var(--team-t);
-}
-
-.teamIndicator.ct {
-  background: var(--team-ct);
-  box-shadow: 0 0 6px var(--team-ct);
-}
-
-.teamIndicator.both {
-  background: linear-gradient(135deg, var(--team-t) 50%, var(--team-ct) 50%);
 }
 
 .diffOption.active[data-difficulty="easy"] {
@@ -109,9 +185,3 @@
   border-color: var(--diff-hard);
   background: rgba(255, 107, 53, 0.1);
 }
-
-.diffOption.active[data-difficulty="troll"] {
-  border-color: var(--diff-troll);
-  background: rgba(255, 53, 71, 0.1);
-}
-

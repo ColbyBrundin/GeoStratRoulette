@@ -8,11 +8,9 @@ A Counter-Strike 2 strategy roulette game built with Next.js, React, and TypeScr
 
 ## Features
 
-- 🎰 **Spin the Roulette** - Get a random strategy for your team
-- 📝 **Add Custom Strategies** - Create your own strategies with name, description, team, and difficulty
-- 🎯 **Filter Options** - Filter by team (T/CT/Both) and difficulty (Easy/Medium/Hard/Troll)
-- 💾 **Local Storage** - All strategies are saved in your browser
-- 🎨 **Tactical Dark Theme** - CS2-inspired aesthetic with smooth animations
+- Get a random strategy for your team
+- Filter by team and difficulty
+- Create your own strategies with name, description, team, and difficulty
 
 ## Getting Started
 
@@ -39,43 +37,6 @@ npm run dev
 ```
 
 4. Open [http://localhost:3000](http://localhost:3000) in your browser
-
-## Usage
-
-1. **Spin the Wheel** - Click the "SPIN" button to get a random strategy
-2. **Add Strategies** - Click "+ Add Strategy" to create your own
-3. **Filter Results** - Use the filter panel to narrow down by team or difficulty
-4. **View All** - Click "View All" to see your complete strategy list
-
-## Tech Stack
-
-- **Framework**: Next.js 14 (App Router)
-- **Language**: TypeScript
-- **State Management**: Zustand with persist middleware
-- **Styling**: CSS Modules with CSS Variables
-- **Font**: Chakra Petch + Share Tech Mono
-
-## Project Structure
-
-```
-src/
-├── app/
-│   ├── globals.css      # Global styles and CSS variables
-│   ├── layout.tsx       # Root layout
-│   ├── page.tsx         # Main page
-│   └── page.module.css  # Page-specific styles
-├── components/
-│   ├── Header.tsx       # Site header
-│   ├── RouletteWheel.tsx # Main roulette wheel
-│   ├── StrategyCard.tsx # Strategy display card
-│   ├── StrategyList.tsx # List of all strategies
-│   ├── FilterPanel.tsx  # Team/difficulty filters
-│   └── AddStrategyModal.tsx # Add strategy form
-├── store/
-│   └── useStrategyStore.ts # Zustand store with persistence
-└── types/
-    └── index.ts         # TypeScript type definitions
-```
 
 ## Scripts
 

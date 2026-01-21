@@ -1,5 +1,5 @@
-export type Team = 'T' | 'CT' | 'Both';
-export type Difficulty = 'Easy' | 'Medium' | 'Hard' | 'Troll';
+export type Team = 'T' | 'CT';
+export type Difficulty = 'Easy' | 'Medium' | 'Hard';
 
 export interface Strategy {
   id: string;
@@ -9,10 +9,12 @@ export interface Strategy {
   difficulty: Difficulty;
   map?: string;
   createdAt: number;
+  isImported?: boolean;
+  isDefault?: boolean;
 }
 
 export interface RouletteSettings {
-  includedTeams: Team[];
+  selectedTeam: Team;
   includedDifficulties: Difficulty[];
   selectedMap?: string;
 }

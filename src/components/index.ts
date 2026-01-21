@@ -1,5 +1,5 @@
 export { Header } from './Header';
-export { RouletteWheel } from './RouletteWheel';
+export { StratButton } from './StratButton';
 export { StrategyCard } from './StrategyCard';
 export { StrategyList } from './StrategyList';
 export { FilterPanel } from './FilterPanel';

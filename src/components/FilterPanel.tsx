@@ -1,24 +1,16 @@
 'use client';
 
 import { useStrategyStore } from '@/store/useStrategyStore';
-import type { Team, Difficulty } from '@/types';
+import type { Difficulty } from '@/types';
 import styles from './FilterPanel.module.css';
 
-const TEAMS: Team[] = ['T', 'CT', 'Both'];
-const DIFFICULTIES: Difficulty[] = ['Easy', 'Medium', 'Hard', 'Troll'];
+const DIFFICULTIES: Difficulty[] = ['Easy', 'Medium', 'Hard'];
 
 export function FilterPanel() {
   const { settings, setSettings } = useStrategyStore();
 
-  const toggleTeam = (team: Team) => {
-    const current = settings.includedTeams;
-    const updated = current.includes(team)
-      ? current.filter((t) => t !== team)
-      : [...current, team];
-    
-    if (updated.length > 0) {
-      setSettings({ includedTeams: updated });
-    }
+  const selectTeam = (team: 'T' | 'CT') => {
+    setSettings({ selectedTeam: team });
   };
 
   const toggleDifficulty = (diff: Difficulty) => {
@@ -40,22 +32,26 @@ export function FilterPanel() {
 
       <div className={styles.section}>
         <h4 className={styles.sectionTitle}>Team</h4>
-        <div className={styles.options}>
-          {TEAMS.map((team) => (
-            <button
-              key={team}
-              className={`${styles.option} ${settings.includedTeams.includes(team) ? styles.active : ''}`}
-              onClick={() => toggleTeam(team)}
-            >
-              <span className={`${styles.teamIndicator} ${styles[team.toLowerCase()]}`} />
-              {team === 'Both' ? 'T / CT' : team}
-            </button>
-          ))}
+        <div className={styles.teamButtons}>
+          <button
+            className={`${styles.teamBtn} ${styles.tBtn} ${settings.selectedTeam === 'T' ? styles.active : ''}`}
+            onClick={() => selectTeam('T')}
+          >
+            <span className={styles.teamIndicator} />
+            T
+          </button>
+          <button
+            className={`${styles.teamBtn} ${styles.ctBtn} ${settings.selectedTeam === 'CT' ? styles.active : ''}`}
+            onClick={() => selectTeam('CT')}
+          >
+            <span className={styles.teamIndicator} />
+            CT
+          </button>
         </div>
       </div>
 
       <div className={styles.section}>
-        <h4 className={styles.sectionTitle}>Difficulty</h4>
+        <h4 className={styles.sectionTitle}>Selected Difficulties</h4>
         <div className={styles.options}>
           {DIFFICULTIES.map((diff) => (
             <button
@@ -72,4 +68,3 @@ export function FilterPanel() {
     </div>
   );
 }
-

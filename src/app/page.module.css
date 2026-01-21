@@ -6,47 +6,83 @@
 }
 
 .container {
-  max-width: 1400px;
+  max-width: 500px;
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: 320px 1fr;
-  gap: 48px;
-  align-items: start;
-}
-
-.leftPanel {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 24px;
-  position: sticky;
-  top: 24px;
 }
 
 .actions {
   display: flex;
-  flex-direction: column;
   gap: 12px;
-}
-
-.actions button {
   width: 100%;
 }
 
-.centerPanel {
+.actions button {
+  flex: 1;
+}
+
+.viewAllRow {
+  width: 100%;
+}
+
+.viewAllRow button {
+  width: 100%;
+}
+
+.errorMessage {
+  width: 100%;
+  background: rgba(255, 53, 71, 0.15);
+  border: 1px solid var(--accent-red);
+  color: var(--accent-red);
+  padding: 12px 16px;
+  font-size: 13px;
+  line-height: 1.5;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 32px;
-  padding-top: 24px;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.errorClose {
+  background: transparent;
+  border: none;
+  color: var(--accent-red);
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.errorClose:hover {
+  opacity: 0.7;
+}
+
+.stratButtonWrapper {
+  margin-top: 32px;
+  margin-bottom: 32px;
 }
 
 .resultContainer {
   width: 100%;
-  max-width: 500px;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  animation: slide-up 0.4s ease-out forwards;
+  animation: pop-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes pop-in {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .clearBtn {
@@ -54,26 +90,3 @@
   padding: 8px 20px;
   font-size: 12px;
 }
-
-@keyframes slide-up {
-  0% {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-/* Responsive */
-@media (max-width: 900px) {
-  .container {
-    grid-template-columns: 1fr;
-  }
-  
-  .leftPanel {
-    position: static;
-  }
-}
-
