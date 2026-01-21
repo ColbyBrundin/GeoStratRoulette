@@ -166,6 +166,11 @@ a {
   border: 1px solid var(--team-ct);
 }
 
+.team-badge.both {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  border: 1px solid var(--text-secondary);
+}
 
 /* Difficulty badges */
 .diff-badge {

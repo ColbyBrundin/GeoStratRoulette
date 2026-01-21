@@ -17,11 +17,18 @@ export default function Home() {
   const [importError, setImportError] = useState<string | null>(null);
   const [generateCount, setGenerateCount] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { currentStrategy, selectStrat, clearCurrentStrategy, strategies, addStrategies } = useStrategyStore();
+  const { currentStrategy, dualStrategies, selectStrat, selectDualStrats, clearCurrentStrategy, clearDualStrategies, strategies, addStrategies } = useStrategyStore();
 
   const handleSpin = () => {
     setGenerateCount((c) => c + 1);
+    clearDualStrategies();
     selectStrat();
+  };
+
+  const handleDualSpin = () => {
+    setGenerateCount((c) => c + 1);
+    clearCurrentStrategy();
+    selectDualStrats();
   };
 
   const handleImportClick = () => {
@@ -41,14 +48,36 @@ export default function Home() {
       // Skip header if present
       const startIndex = lines[0]?.toLowerCase().includes('title') ? 1 : 0;
       
-      const validTeams = ['T', 'CT'];
+      const validTeams = ['T', 'CT', 'Both'];
       const validDifficulties = ['Easy', 'Medium', 'Hard'];
       
       const validStrategies: { name: string; description: string; team: Team; difficulty: Difficulty }[] = [];
       let hasInvalidRows = false;
       
+      // CSV parser that handles quoted fields with commas
+      const parseCSVLine = (line: string): string[] => {
+        const result: string[] = [];
+        let current = '';
+        let inQuotes = false;
+        
+        for (let i = 0; i < line.length; i++) {
+          const char = line[i];
+          
+          if (char === '"') {
+            inQuotes = !inQuotes;
+          } else if (char === ',' && !inQuotes) {
+            result.push(current.trim());
+            current = '';
+          } else {
+            current += char;
+          }
+        }
+        result.push(current.trim());
+        return result;
+      };
+      
       lines.slice(startIndex).forEach((line) => {
-        const [name, description, teamRaw, difficultyRaw] = line.split(',').map((s) => s.trim());
+        const [name, description, teamRaw, difficultyRaw] = parseCSVLine(line);
         
         // Validate team and difficulty
         const isValidTeam = validTeams.includes(teamRaw);
@@ -72,7 +101,7 @@ export default function Home() {
       }
       
       if (hasInvalidRows) {
-        setImportError('Some strategies were not imported due to invalid team or difficulty values. Team must be "T" or "CT", difficulty must be "Easy", "Medium", or "Hard".');
+        setImportError('Some strategies were not imported due to invalid team or difficulty values. Team must be "T", "CT", or "Both", difficulty must be "Easy", "Medium", or "Hard".');
       }
       
       // Reset file input
@@ -132,6 +161,13 @@ export default function Home() {
 
         <div className={styles.stratButtonWrapper}>
           <StratButton onSpin={handleSpin} />
+          <button 
+            className={styles.dualButton}
+            onClick={handleDualSpin}
+          >
+            <span className={styles.dualButtonText}>BOTH TEAMS</span>
+            <div className={styles.dualButtonGlow} />
+          </button>
         </div>
         
         {currentStrategy && (
@@ -140,6 +176,31 @@ export default function Home() {
             <button 
               className={`btn btn-secondary ${styles.clearBtn}`}
               onClick={clearCurrentStrategy}
+            >
+              Clear
+            </button>
+          </div>
+        )}
+
+        {dualStrategies && (
+          <div key={`dual-${generateCount}`} className={styles.dualResultContainer}>
+            <div className={styles.dualColumn}>
+              {dualStrategies.t ? (
+                <StrategyCard strategy={dualStrategies.t} isResult />
+              ) : (
+                <div className={styles.noStrategy}>No T strategies available</div>
+              )}
+            </div>
+            <div className={styles.dualColumn}>
+              {dualStrategies.ct ? (
+                <StrategyCard strategy={dualStrategies.ct} isResult />
+              ) : (
+                <div className={styles.noStrategy}>No CT strategies available</div>
+              )}
+            </div>
+            <button 
+              className={`btn btn-secondary ${styles.clearBtn}`}
+              onClick={clearDualStrategies}
             >
               Clear
             </button>

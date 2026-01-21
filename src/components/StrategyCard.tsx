@@ -11,9 +11,11 @@ interface StrategyCardProps {
 
 export function StrategyCard({ strategy, isResult = false }: StrategyCardProps) {
   const { removeStrategy } = useStrategyStore();
+  
+  const difficultyClass = isResult ? styles[`difficulty${strategy.difficulty}`] : '';
 
   return (
-    <div className={`${styles.card} ${isResult ? styles.resultCard : ''}`}>
+    <div className={`${styles.card} ${isResult ? styles.resultCard : ''} ${difficultyClass}`}>
       {isResult && (
         <div className={styles.resultBanner}>
           <span className="mono">YOUR STRATEGY</span>
@@ -38,16 +40,12 @@ export function StrategyCard({ strategy, isResult = false }: StrategyCardProps) 
       <div className={styles.footer}>
         <div className={styles.badges}>
           <span className={`team-badge ${strategy.team.toLowerCase()}`}>
-            {strategy.team}
+            {strategy.team === 'Both' ? 'T / CT' : strategy.team}
           </span>
           <span className={`diff-badge ${strategy.difficulty.toLowerCase()}`}>
             {strategy.difficulty}
           </span>
         </div>
-        
-        {strategy.map && (
-          <span className={styles.map}>{strategy.map}</span>
-        )}
       </div>
     </div>
   );

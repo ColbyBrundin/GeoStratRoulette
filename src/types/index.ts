@@ -1,4 +1,4 @@
-export type Team = 'T' | 'CT';
+export type Team = 'T' | 'CT' | 'Both';
 export type Difficulty = 'Easy' | 'Medium' | 'Hard';
 
 export interface Strategy {
@@ -7,15 +7,15 @@ export interface Strategy {
   description: string;
   team: Team;
   difficulty: Difficulty;
-  map?: string;
   createdAt: number;
   isImported?: boolean;
   isDefault?: boolean;
+  variable?: string;
+  weight?: number;
 }
 
-export interface RouletteSettings {
+export interface StratSelectSettings {
   selectedTeam: Team;
   includedDifficulties: Difficulty[];
-  selectedMap?: string;
 }
 

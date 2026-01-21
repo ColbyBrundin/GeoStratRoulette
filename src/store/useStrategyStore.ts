@@ -2,12 +2,27 @@
 
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { Strategy, RouletteSettings, Difficulty } from '@/types';
+import type { Strategy, StratSelectSettings, Difficulty } from '@/types';
+import { getDefaultStrategies, sites, high_noon, snipers, ct_weapons, t_weapons, weapons } from './defaultStrategies';
+
+// Helper to get variable array by name
+const getVariableArray = (variableName: string): string[] => {
+  const variableMap: Record<string, string[]> = {
+    sites,
+    high_noon,
+    snipers,
+    ct_weapons,
+    t_weapons,
+    weapons,
+  };
+  return variableMap[variableName] || [];
+};
 
 interface StrategyStore {
   strategies: Strategy[];
-  settings: RouletteSettings;
+  settings: StratSelectSettings;
   currentStrategy: Strategy | null;
+  dualStrategies: { t: Strategy | null; ct: Strategy | null } | null;
   
   // Actions
   addStrategy: (strategy: Omit<Strategy, 'id' | 'createdAt'>) => void;
@@ -15,60 +30,17 @@ interface StrategyStore {
   removeStrategy: (id: string) => void;
   removeImportedStrategies: () => void;
   updateStrategy: (id: string, updates: Partial<Strategy>) => void;
-  setSettings: (settings: Partial<RouletteSettings>) => void;
+  setSettings: (settings: Partial<StratSelectSettings>) => void;
   selectStrat: () => void;
+  selectDualStrats: () => void;
   clearCurrentStrategy: () => void;
+  clearDualStrategies: () => void;
 }
 
 const generateId = () => Math.random().toString(36).substring(2, 15);
 
-// Default strategies with fixed IDs so they persist correctly
-const DEFAULT_STRATEGY_IDS = {
-  rushB: 'default-rush-b',
-  stackA: 'default-stack-a',
-  knifeOnly: 'default-knife-only',
-  ecoDeagle: 'default-eco-deagle',
-};
-
-// Sample strategies to get started
-const defaultStrategies: Strategy[] = [
-  {
-    id: DEFAULT_STRATEGY_IDS.rushB,
-    name: 'Rush B No Stop',
-    description: 'Everyone buys SMGs and rushes B site. No stopping, no peeking, just run.',
-    team: 'T',
-    difficulty: 'Easy',
-    createdAt: 0,
-    isDefault: true,
-  },
-  {
-    id: DEFAULT_STRATEGY_IDS.stackA,
-    name: 'Stack A',
-    description: 'All 5 CTs stack on A site. Leave B completely open.',
-    team: 'CT',
-    difficulty: 'Medium',
-    createdAt: 0,
-    isDefault: true,
-  },
-  {
-    id: DEFAULT_STRATEGY_IDS.knifeOnly,
-    name: 'Knife Only Round',
-    description: 'Everyone only uses their knife. No exceptions.',
-    team: 'T',
-    difficulty: 'Hard',
-    createdAt: 0,
-    isDefault: true,
-  },
-  {
-    id: DEFAULT_STRATEGY_IDS.ecoDeagle,
-    name: 'Eco Deagle',
-    description: 'Full eco but everyone buys a Deagle. One tap or nothing.',
-    team: 'CT',
-    difficulty: 'Hard',
-    createdAt: 0,
-    isDefault: true,
-  },
-];
+// Load default strategies from CSV
+const defaultStrategies: Strategy[] = getDefaultStrategies();
 
 export const useStrategyStore = create<StrategyStore>()(
   persist(
@@ -79,6 +51,7 @@ export const useStrategyStore = create<StrategyStore>()(
         includedDifficulties: ['Easy', 'Medium', 'Hard'],
       },
       currentStrategy: null,
+      dualStrategies: null,
 
       addStrategy: (strategy) => {
         const newStrategy: Strategy = {
@@ -130,15 +103,14 @@ export const useStrategyStore = create<StrategyStore>()(
         }));
       },
 
-      spinRoulette: () => {
+      selectStrat: () => {
         const { strategies, settings } = get();
         
         // Filter strategies based on settings
         const eligible = strategies.filter((s) => {
-          const teamMatch = s.team === settings.selectedTeam;
+          const teamMatch = s.team === settings.selectedTeam || s.team === 'Both';
           const difficultyMatch = settings.includedDifficulties.includes(s.difficulty);
-          const mapMatch = !settings.selectedMap || !s.map || s.map === settings.selectedMap;
-          return teamMatch && difficultyMatch && mapMatch;
+          return teamMatch && difficultyMatch;
         });
 
         if (eligible.length === 0) {
@@ -146,12 +118,94 @@ export const useStrategyStore = create<StrategyStore>()(
           return;
         }
 
-        const randomIndex = Math.floor(Math.random() * eligible.length);
-        set({ currentStrategy: eligible[randomIndex] });
+        // Weighted random selection
+        const totalWeight = eligible.reduce((sum, s) => sum + (s.weight || 1), 0);
+        let random = Math.random() * totalWeight;
+        
+        let selectedStrategy = eligible[0];
+        for (const strategy of eligible) {
+          random -= (strategy.weight || 1);
+          if (random <= 0) {
+            selectedStrategy = strategy;
+            break;
+          }
+        }
+
+        // Handle variable replacement
+        let finalStrategy = { ...selectedStrategy };
+        if (selectedStrategy.variable) {
+          const variableArray = getVariableArray(selectedStrategy.variable);
+          if (variableArray.length > 0) {
+            const randomTerm = variableArray[Math.floor(Math.random() * variableArray.length)];
+            finalStrategy = {
+              ...selectedStrategy,
+              name: selectedStrategy.name.replace(/_/g, randomTerm),
+              description: selectedStrategy.description.replace(/_/g, randomTerm),
+            };
+          }
+        }
+
+        set({ currentStrategy: finalStrategy });
       },
 
       clearCurrentStrategy: () => {
         set({ currentStrategy: null });
+      },
+
+      selectDualStrats: () => {
+        const { strategies, settings } = get();
+        
+        const selectForTeam = (team: 'T' | 'CT'): Strategy | null => {
+          // Filter strategies based on team and difficulty only
+          const eligible = strategies.filter((s) => {
+            const teamMatch = s.team === team || s.team === 'Both';
+            const difficultyMatch = settings.includedDifficulties.includes(s.difficulty);
+            return teamMatch && difficultyMatch;
+          });
+
+          if (eligible.length === 0) return null;
+
+          // Weighted random selection
+          const totalWeight = eligible.reduce((sum, s) => sum + (s.weight || 1), 0);
+          let random = Math.random() * totalWeight;
+          
+          let selectedStrategy = eligible[0];
+          for (const strategy of eligible) {
+            random -= (strategy.weight || 1);
+            if (random <= 0) {
+              selectedStrategy = strategy;
+              break;
+            }
+          }
+
+          // Handle variable replacement
+          let finalStrategy = { ...selectedStrategy };
+          if (selectedStrategy.variable) {
+            const variableArray = getVariableArray(selectedStrategy.variable);
+            if (variableArray.length > 0) {
+              const randomTerm = variableArray[Math.floor(Math.random() * variableArray.length)];
+              finalStrategy = {
+                ...selectedStrategy,
+                name: selectedStrategy.name.replace(/_/g, randomTerm),
+                description: selectedStrategy.description.replace(/_/g, randomTerm),
+              };
+            }
+          }
+
+          return finalStrategy;
+        };
+
+        set({ 
+          dualStrategies: {
+            t: selectForTeam('T'),
+            ct: selectForTeam('CT'),
+          },
+          currentStrategy: null,
+        });
+      },
+
+      clearDualStrategies: () => {
+        set({ dualStrategies: null });
       },
     }),
     {

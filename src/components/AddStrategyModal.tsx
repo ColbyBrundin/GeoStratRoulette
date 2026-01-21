@@ -9,7 +9,7 @@ interface AddStrategyModalProps {
   onClose: () => void;
 }
 
-const TEAMS: Team[] = ['T', 'CT'];
+const TEAMS: Team[] = ['T', 'CT', 'Both'];
 const DIFFICULTIES: Difficulty[] = ['Easy', 'Medium', 'Hard'];
 
 export function AddStrategyModal({ onClose }: AddStrategyModalProps) {
@@ -78,7 +78,7 @@ export function AddStrategyModal({ onClose }: AddStrategyModalProps) {
                     className={`${styles.selectBtn} ${team === t ? styles.selected : ''}`}
                     onClick={() => setTeam(t)}
                   >
-                    {t}
+                    {t === 'Both' ? 'T / CT' : t}
                   </button>
                 ))}
               </div>
