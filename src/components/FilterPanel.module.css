@@ -1,0 +1,117 @@
+.panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 20px;
+  position: relative;
+}
+
+.panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: var(--accent-cyan);
+}
+
+.header {
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.label {
+  font-size: 12px;
+  color: var(--accent-cyan);
+  letter-spacing: 3px;
+}
+
+.section {
+  margin-bottom: 20px;
+}
+
+.section:last-child {
+  margin-bottom: 0;
+}
+
+.sectionTitle {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 0 0 12px 0;
+  font-weight: 500;
+}
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.option:hover {
+  border-color: var(--text-muted);
+  color: var(--text-primary);
+}
+
+.option.active {
+  border-color: var(--accent-cyan);
+  color: var(--text-primary);
+  background: rgba(0, 212, 255, 0.1);
+}
+
+.teamIndicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.teamIndicator.t {
+  background: var(--team-t);
+  box-shadow: 0 0 6px var(--team-t);
+}
+
+.teamIndicator.ct {
+  background: var(--team-ct);
+  box-shadow: 0 0 6px var(--team-ct);
+}
+
+.teamIndicator.both {
+  background: linear-gradient(135deg, var(--team-t) 50%, var(--team-ct) 50%);
+}
+
+.diffOption.active[data-difficulty="easy"] {
+  border-color: var(--diff-easy);
+  background: rgba(57, 255, 20, 0.1);
+}
+
+.diffOption.active[data-difficulty="medium"] {
+  border-color: var(--diff-medium);
+  background: rgba(255, 215, 0, 0.1);
+}
+
+.diffOption.active[data-difficulty="hard"] {
+  border-color: var(--diff-hard);
+  background: rgba(255, 107, 53, 0.1);
+}
+
+.diffOption.active[data-difficulty="troll"] {
+  border-color: var(--diff-troll);
+  background: rgba(255, 53, 71, 0.1);
+}
+

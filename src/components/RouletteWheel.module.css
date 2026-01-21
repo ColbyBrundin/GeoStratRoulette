@@ -1,0 +1,266 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+
+.wheel {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.outerRing {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.dashedRing {
+  transform-origin: center;
+  animation: none;
+}
+
+.spinning .dashedRing {
+  animation: rotate 0.5s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.innerCircle {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: 
+    radial-gradient(circle at 30% 30%, var(--bg-tertiary) 0%, var(--bg-secondary) 100%);
+  border: 2px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.spinning .innerCircle {
+  border-color: var(--accent-orange);
+  box-shadow: 
+    0 0 30px rgba(255, 107, 53, 0.3),
+    inset 0 0 30px rgba(255, 107, 53, 0.1);
+}
+
+.crosshair {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.crosshairLine {
+  position: absolute;
+  background: var(--border-color);
+}
+
+.crosshairLine:first-child {
+  width: 100%;
+  height: 1px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.crosshairLine:nth-child(2) {
+  width: 1px;
+  height: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.crosshairDot {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-orange);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 10px var(--accent-orange);
+}
+
+.readyText, .spinningText {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+}
+
+.readyLabel {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 24px;
+  color: var(--accent-cyan);
+  letter-spacing: 6px;
+  text-shadow: 0 0 20px var(--accent-cyan);
+}
+
+.processingText {
+  font-size: 14px;
+  color: var(--accent-orange);
+  letter-spacing: 4px;
+  animation: flicker 0.5s ease-in-out infinite;
+}
+
+.loadingDots {
+  display: flex;
+  gap: 4px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 24px;
+  color: var(--accent-orange);
+}
+
+.loadingDots span {
+  animation: bounce 1s ease-in-out infinite;
+}
+
+.loadingDots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loadingDots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* Corner decorations */
+.corner {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-color: var(--accent-cyan);
+  border-style: solid;
+  border-width: 0;
+}
+
+.topLeft {
+  top: 20px;
+  left: 20px;
+  border-top-width: 2px;
+  border-left-width: 2px;
+}
+
+.topRight {
+  top: 20px;
+  right: 20px;
+  border-top-width: 2px;
+  border-right-width: 2px;
+}
+
+.bottomLeft {
+  bottom: 20px;
+  left: 20px;
+  border-bottom-width: 2px;
+  border-left-width: 2px;
+}
+
+.bottomRight {
+  bottom: 20px;
+  right: 20px;
+  border-bottom-width: 2px;
+  border-right-width: 2px;
+}
+
+/* Spin button */
+.spinButton {
+  position: relative;
+  padding: 16px 64px;
+  background: linear-gradient(135deg, var(--accent-orange) 0%, #e55a2b 100%);
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+}
+
+.spinButton::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  background: linear-gradient(135deg, var(--accent-orange) 0%, #e55a2b 100%);
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  z-index: 0;
+}
+
+.spinButton:hover:not(.disabled) {
+  transform: translateY(-3px);
+  box-shadow: 
+    0 10px 30px rgba(255, 107, 53, 0.4),
+    0 0 60px rgba(255, 107, 53, 0.2);
+}
+
+.spinButton:active:not(.disabled) {
+  transform: translateY(-1px);
+}
+
+.spinButtonText {
+  position: relative;
+  z-index: 1;
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--bg-primary);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+.spinButtonGlow {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.3) 50%,
+    transparent 60%
+  );
+  transform: translateX(-100%);
+}
+
+.spinButton:hover:not(.disabled) .spinButtonGlow {
+  animation: shine 0.6s ease-out;
+}
+
+@keyframes shine {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+.disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
