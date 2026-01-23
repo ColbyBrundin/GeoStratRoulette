@@ -112,7 +112,7 @@ Silent Killer,"You can only walk or crouch walk to move, no running is allowed."
 Green Beret,You can only use weapons that have been picked up from an enemy. Grenades and knives are allowed.,Both,Hard
 Superior Lefties,"You must swap hands on the keyboard and mouse (generally, this means left hand on mouse, right hand on keyboard).",Both,Hard
 Quiet on Comms,Everyone must make intentionally vague or false callouts throughout the round.,Both,Easy
-Simple,Buy as many snipers as you can afford and use all of them (up to 5). Only no-scoping is allowed.,Both,Medium
+Simple,Buy as many snipers as you can afford and use all of them (up to 5). Only no-scoping is allowed.,Both,Hard
 Save the Eardrums,Buy and use only suppressed weapons.,CT,Medium
 Attack the D Point!,"Take one site, then immediately rush to the other site and plant.",T,Medium
 I'm Invincible!,"If you take damage, you must go back to your spawn (to heal, of course).",Both,Hard
@@ -157,13 +157,31 @@ Formation,All players must move or stop in unison. Anyone caught moving or stopp
 They'll Never See it Coming,"When entering any room or peeking any corner, you must throw your pistol around the corner first as if it were a flashbang.",T,Medium
 Decoy Out!,Buy a decoy grenade and throw it at the first enemy you see before shooting them.,T,Easy
 Carpet Bombing,"Everyone must buy four grenades of any type. Push one of the sites, then throw every grenade on the site before or during the push.",T,Easy
-Wait Your Turn,Only one player is allowed to move at once.,Both,Hard
+Wait Your Turn,Only one player is allowed to move at a time.,Both,Hard
 Greeting Party,"Stack everyone on one site, and have everyone sit just around the corner at a single enterence.",CT,Easy
 MVM Rush,"The bomb carrier must equip the bomb and continue running towards the nearest site until they plant. If they die, the next man must take his place.",T,Easy
 Everyone Gets a Turn,"Your team must allow the bomb to be planted, then have every remaining team member start a defuse before defusing it.",CT,Medium
 Quad Fake,"Four players must rush one site, while the fifth lurks by the opposite site waiting to plant.",T,Easy
 Terrorist Supremacy,You may only use guns that are only available to T-side.,T,Easy
-Counter-Terrorist Supremacy,You may only use guns that are only available to CT-side.,CT,Easy`;
+Counter-Terrorist Supremacy,You may only use guns that are only available to CT-side.,CT,Easy
+James Bond,"You may only buy a pistol of any kind, no grenades or armor may be used.",Both,Easy
+Trash Talk,Every 30 seconds or so (and after any player dies) type some form of trash talk or ragebait in chat.,Both,Easy
+RAM is Expensive,Change your resolution to the lowest possible setting.,Both,Medium
+Literally Throwing,The bottom player on the team must try as hard as possible to lose the round without damaging any teammates directly.,Both,Easy
+Left and Right Brain,"For the first 30 seconds of the round, you may only touch your keyboard. For the next 30 seconds, you may only touch your mouse. This repeats until the round ends.",Both,Hard
+I Only Need One Mag,You are not allowed to reload during the round.,Both,Medium
+Sacrificial Lamb,"Send the bottom player to hold a bombsite on his own, while everyone else must avoid that side of the map unless the player dies.",CT,Easy
+Anti-Humiliation,"You cannot attack enemy players until one of your teammates dies to a knife, grenade, or Zeus.",Both,Hard
+"Hackers, Hackers Everywhere","When the first player on your team dies, everyone else must hide for 30 seconds and relentlessly accuse their killer of cheating.",T,Medium
+Encouragement,"Everyone follows directly behind the top player, constantly giving them ""encouragement"". If they die, switch to berating them as you try to win the round.",T,Medium
+Diversity,Every enemy must take damage from at least two different weapons before dying (e.g. M4A4 and MP9),Both,Hard
+War Pig,The bomb carrier can only walk and must have the bomb out the entire time.,T,Medium
+Sniper No Sniping!,Your team cannot use any gun with a scope.,CT,Easy
+4 Verticals QB Sneak,"Send 2 players to each bomb site, but the bomb carrier must push through mid.",T,Medium
+Tower of Babble,"For players who know a second language, use it to make frequent callouts. For anyone else, try an accent.",Both,Easy
+Ramirez!,"All callouts must be preceeded by saying ""Ramirez!""",Both,Easy
+Smoke Detector,"Any dead players must frequently make a ""beep!"" noise as if they had an out of battery smoke detector (bonus points if you actually do have one).",Both,Easy
+Based Loaded,"At some point in the round, you must have a player standing on each site and in the enemy spawn.",T,Medium`;
 
 // Strategies with variables (from Sheet2) - includes weights
 const variableStrategiesCSV = `Rush _! Rush _!,Go straight to the _ site. Do not stop moving at all until the bomb is planted.,T,Easy,sites,1
