@@ -1,0 +1,6 @@
+Name,Description,T/CT/Both,"Difficulty (Easy, Medium, Hard)","Special information (weapon, console, etc.)",Weight
+Rush _! Rush _!,Go straight to the _ site. Do not stop moving at all until the bomb is planted.,T,Easy,sites,1
+It's High Noon,"Everyone must use a revolver or desert eagle. If you can't equip the whole team, you are not allowed to attack enemies until you pick one up.",Both,Easy,high_noon,1
+"One Shot, One Kill","Everyone must use a sniper. If you can't equip the whole team, you are not allowed to attack enemies until you pick one up.",Both,Easy,snipers,1
+Abundance of _s,"Everyone must use a _. If there is not enough money to equip everyone with a _, the remaining players must use a knife and grenades.",CT,Medium,ct_weapons,5
+Abundance of _s,"Everyone must use a _. If there is not enough money to equip everyone with a _, the remaining players must use a knife and grenades.",T,Medium,t_weapons,5

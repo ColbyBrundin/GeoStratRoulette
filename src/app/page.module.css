@@ -72,7 +72,8 @@
 
 .dualButton {
   position: relative;
-  padding: 20px 80px;
+  padding: 20px 40px;
+  width: 300px;
   background: linear-gradient(135deg, var(--accent-orange) 0%, #e55a2b 100%);
   border: none;
   cursor: pointer;
